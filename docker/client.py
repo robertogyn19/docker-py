@@ -102,7 +102,7 @@ class Client(requests.Session):
                           mem_limit=0, ports=None, environment=None, dns=None,
                           volumes=None, volumes_from=None,
                           network_disabled=False, entrypoint=None,
-                          cpu_shares=None, working_dir=None, domainname=None,
+                          cpu_shares=None, cpu_set=None, working_dir=None, domainname=None,
                           memswap_limit=0):
         if isinstance(command, six.string_types):
             command = shlex.split(str(command))
@@ -177,6 +177,7 @@ class Client(requests.Session):
             'VolumesFrom': volumes_from,
             'NetworkDisabled': network_disabled,
             'Entrypoint': entrypoint,
+            'Cpuset': cpu_set,
             'CpuShares': cpu_shares,
             'WorkingDir': working_dir,
             'MemorySwap': memswap_limit
@@ -462,13 +463,13 @@ class Client(requests.Session):
                          mem_limit=0, ports=None, environment=None, dns=None,
                          volumes=None, volumes_from=None,
                          network_disabled=False, name=None, entrypoint=None,
-                         cpu_shares=None, working_dir=None, domainname=None,
+                         cpu_shares=None, cpu_set=None, working_dir=None, domainname=None,
                          memswap_limit=0):
 
         config = self._container_config(
             image, command, hostname, user, detach, stdin_open, tty, mem_limit,
             ports, environment, dns, volumes, volumes_from, network_disabled,
-            entrypoint, cpu_shares, working_dir, domainname, memswap_limit
+            entrypoint, cpu_shares, cpu_set, working_dir, domainname, memswap_limit
         )
         return self.create_container_from_config(config, name)
 
